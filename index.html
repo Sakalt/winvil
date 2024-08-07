@@ -38,11 +38,23 @@
         <p>この部屋では未来のWindows36のサウンドを体験できます。</p>
         <button onclick="playSynthPluck(659, 0.2)">Play Synth Pluck E5</button>
     </div>
+    <div id="roomBerlinBalikpapan" class="room">
+        <h2>Windows Berlin-Balikpapan (2101-2128)</h2>
+        <p>この部屋ではサイバー的なかっこいい起動音を楽しむことができます。</p>
+        <button onclick="playCyberStartup()">Play Cyber Startup Sound</button>
+    </div>
+    <div id="roomLyspardTokyo" class="room">
+        <h2>Windows Lyspard-Tokyo (2130-2150)</h2>
+        <p>この部屋ではWindows Lyspard-Tokyoの独自の起動音を体験できます。</p>
+        <button onclick="playLyspardTokyoStartup()">Play Lyspard-Tokyo Startup Sound</button>
+    </div>
 
     <div class="navigation">
         <button onclick="showRoom('room34')">Windows34</button>
         <button onclick="showRoom('room35')">Windows35</button>
         <button onclick="showRoom('room36')">Windows36</button>
+        <button onclick="showRoom('roomBerlinBalikpapan')">Berlin-Balikpapan</button>
+        <button onclick="showRoom('roomLyspardTokyo')">Lyspard-Tokyo</button>
     </div>
 
     <script>
@@ -74,6 +86,52 @@
                     playSynthPluck(frequency, duration);
                 }, delay);
                 delay += duration * 1000; // 次の音までの遅延
+            });
+        }
+
+        function playCyberStartup() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const frequencies = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5の周波数
+            const duration = 0.4;
+            
+            frequencies.forEach((frequency, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime + (index * duration / 4));
+
+                gainNode.gain.setValueAtTime(1, audioContext.currentTime + (index * duration / 4));
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + (index * duration / 4) + duration);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.start(audioContext.currentTime + (index * duration / 4));
+                oscillator.stop(audioContext.currentTime + (index * duration / 4) + duration);
+            });
+        }
+
+        function playLyspardTokyoStartup() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const frequencies = [523.25, 659.25, 783.99, 987.77]; // C5, E5, G5, B5の周波数
+            const duration = 0.5;
+            
+            frequencies.forEach((frequency, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime + (index * duration / 4));
+
+                gainNode.gain.setValueAtTime(1, audioContext.currentTime + (index * duration / 4));
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + (index * duration / 4) + duration);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.start(audioContext.currentTime + (index * duration / 4));
+                oscillator.stop(audioContext.currentTime + (index * duration / 4) + duration);
             });
         }
 
