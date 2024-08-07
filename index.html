@@ -10,26 +10,39 @@
             margin: 20px;
         }
         .room {
+            display: none;
             margin-bottom: 20px;
+        }
+        .active {
+            display: block;
+        }
+        .navigation {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <h1>Windows未来村</h1>
-    <div class="room" id="room34">
+    <div id="room34" class="room active">
         <h2>Windows34 (2097)</h2>
         <p>この部屋はWindows34の未来的なサウンドを体験できます。</p>
         <button onclick="playSynthPluckSequence()">Play Startup Sound</button>
     </div>
-    <div class="room" id="room35">
+    <div id="room35" class="room">
         <h2>Windows35 (2099)</h2>
         <p>この部屋ではWindows35のサウンドを楽しむことができます。</p>
         <button onclick="playSynthPluck(523, 0.2)">Play Synth Pluck C5</button>
     </div>
-    <div class="room" id="room36">
+    <div id="room36" class="room">
         <h2>Windows36 (2102)</h2>
         <p>この部屋では未来のWindows36のサウンドを体験できます。</p>
         <button onclick="playSynthPluck(659, 0.2)">Play Synth Pluck E5</button>
+    </div>
+
+    <div class="navigation">
+        <button onclick="showRoom('room34')">Windows34</button>
+        <button onclick="showRoom('room35')">Windows35</button>
+        <button onclick="showRoom('room36')">Windows36</button>
     </div>
 
     <script>
@@ -62,6 +75,12 @@
                 }, delay);
                 delay += duration * 1000; // 次の音までの遅延
             });
+        }
+
+        function showRoom(roomId) {
+            const rooms = document.querySelectorAll('.room');
+            rooms.forEach(room => room.classList.remove('active'));
+            document.getElementById(roomId).classList.add('active');
         }
     </script>
 </body>
